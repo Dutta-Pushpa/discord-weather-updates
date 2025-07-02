@@ -1,0 +1,145 @@
+{
+  "name": "Discord Weather Updates",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        20
+      ],
+      "id": "0b90065e-33a4-43cc-9b15-f7ff1445406a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.openweathermap.org/data/2.5/weather?q=Dhaka&appid=140f14b3f0687e6b66ce66b3fb023a9f&units=metric",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -40,
+        160
+      ],
+      "id": "c6235315-ca08-4682-8d9d-2fcf06c787ea",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0bfe28ec-d411-4ac9-9f04-d109dd18eeba",
+              "name": "message",
+              "value": "={{ `🌤 Good morning!\nToday’s weather in Dhaka: ${$json[\"main\"][\"temp\"]}°C, ${$json[\"weather\"][0][\"description\"]}.\nHave a great day!\nRegards, Pushpa(My bot my rules)`\n }}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": "={{ `🌤 Good morning!\nToday’s weather in Dhaka: ${$json[\"main\"][\"temp\"]}°C, ${$json[\"weather\"][0][\"description\"]}.\nHave a great day!`\n }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        160
+      ],
+      "id": "d6010a16-e506-47c2-b4a2-d040aca4b571",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1321150944515330058",
+          "mode": "list",
+          "cachedResultName": "Pushpa🍓's server",
+          "cachedResultUrl": "https://discord.com/channels/1321150944515330058"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1389825588818350080",
+          "mode": "list",
+          "cachedResultName": "weather-updates",
+          "cachedResultUrl": "https://discord.com/channels/1321150944515330058/1389825588818350080"
+        },
+        "content": "={{$json[\"message\"]}}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        400,
+        160
+      ],
+      "id": "626d8375-0bb9-4f80-b8b8-d47539211992",
+      "name": "Discord",
+      "webhookId": "8a5a3bf5-61ca-408f-a941-2d984ec7aa5f",
+      "credentials": {
+        "discordBotApi": {
+          "id": "7JybNejcyBSD9cKl",
+          "name": "Discord Bot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f61a126a-7b63-407d-9e07-412865e3a567",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "518856f6cd0a3ea8af1c8886a94b7bb2da8582deef2b15b8e9ea0445187cd696"
+  },
+  "id": "sSTIuaX4sJmjZmv4",
+  "tags": []
+}
