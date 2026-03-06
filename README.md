@@ -1,4 +1,4 @@
-Discord Weather Updates Bot (n8n)
+## *Discord Weather Updates Bot (n8n)*
 
 This project is a no-code automation workflow built using [n8n](https://n8n.io/) that sends **daily weather updates** to a specific Discord channel via a custom bot.
 
